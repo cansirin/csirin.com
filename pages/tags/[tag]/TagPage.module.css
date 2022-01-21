@@ -1,0 +1,13 @@
+.tag {
+    text-decoration: none;
+    font-size: 24px;
+    color: #fafafa;
+    background-color: #3b3b53;
+    border-radius: 4px;
+    letter-spacing: 0.025em;
+    transition: all 0.125s ease;
+}
+
+.tag:hover {
+    text-decoration: underline;
+}

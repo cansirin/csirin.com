@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+        context: .
+        dockerfile: Dockerfile
+#     entrypoint: npm start
+#     volumes:
+#       - ./.:/blog-web
+    ports:
+      - "5454:3000"
