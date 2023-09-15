@@ -2,7 +2,7 @@ import { Post } from "../../../types";
 import DateFormatter from "../DateFormatter";
 import { FC } from "react";
 import { FadeInAnimation } from "../../layout-components";
-import { InternalLink } from "../InsiderLink";
+import { TagLink } from "../Tag";
 import styled, { useTheme } from "styled-components";
 import Link from "next/link";
 
@@ -10,56 +10,58 @@ type PostProps = {
   post: Post;
 };
 
-const PostContainer = styled.a`
+const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 4px;
-  border: 2px solid ${({ theme }) => theme.border};
-  padding: 12px 16px;
-  margin-bottom: 10px;
-  margin-left: 10px;
+  border-radius: 12px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  padding: 24px;
   cursor: pointer;
+  gap: 16px;
+  justify-content: space-around;
+  background-color: ${({ theme }) => theme.colors.sand3};
 
-  box-shadow: ${({ theme }) => theme.primary} 0px 0 0px 0;
-  transition: box-shadow 300ms ease-in-out;
+  box-shadow: ${({ theme }) => theme.colors.primary} 0px 0 0px 0;
+  transition: border 100ms ease-in-out;
   &:hover {
-    box-shadow: ${({ theme }) => theme.primary} 0px 25px 20px -12px;
+    border-color: ${({ theme }) => theme.colors.hoveredBorder};
   }
 `;
 
-const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+const PostTitle = styled.span`
+  font-size: 32px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const PostTechs = styled.div`
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
+  align-items: baseline;
 `;
 
 export const PostItem: FC<PostProps> = ({ post }) => {
   const theme = useTheme();
+
   return (
     <FadeInAnimation x={-100}>
       <Link href={`/posts/${post.slug}`}>
         <PostContainer>
-          <PostHeader>
-            <InternalLink color={theme.secondary} link={`/posts/${post.slug}`}>
-              {post.title}
-            </InternalLink>
-            <DateFormatter dateString={post.date} />
-          </PostHeader>
+          <TagLink link={`/posts/${post.slug}`}>
+            <PostTitle>{post.title}</PostTitle>
+          </TagLink>
+          <DateFormatter dateString={post.date} />
           <PostTechs>
             {post.tags.map((tag, lIndex) => (
-              <InternalLink
-                color={theme.primary}
-                fontSize={18}
+              <TagLink
+                color={theme.colors.primary}
+                fontSize={16}
                 key={lIndex}
                 link={`/tags/${tag.toLowerCase()}`}
               >
                 #{tag}
-              </InternalLink>
+              </TagLink>
             ))}
           </PostTechs>
         </PostContainer>
@@ -67,3 +69,9 @@ export const PostItem: FC<PostProps> = ({ post }) => {
     </FadeInAnimation>
   );
 };
+
+const Tag = styled(TagLink)`
+  &:hover {
+    background-color: #3b3b53;
+  }
+`;

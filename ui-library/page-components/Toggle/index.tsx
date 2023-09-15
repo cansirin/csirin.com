@@ -1,16 +1,22 @@
+import styled from "styled-components";
 import type { FC } from "react";
 import { useState } from "react";
-import styled, { keyframes } from "styled-components";
 import { Fade } from "../Fade";
 
 type ToggleProps = {
   text: string;
+  icon: any;
+  startOpen?: boolean;
 };
 
-export const Toggle: FC<ToggleProps> = ({ children, text }) => {
-  const [show, setShow] = useState(false);
-  const [rotate, setRotate] = useState(false);
-  console.log(show, rotate);
+export const Toggle: FC<ToggleProps> = ({
+  children,
+  text,
+  icon,
+  startOpen,
+}) => {
+  const [show, setShow] = useState(startOpen || false);
+  const [rotate, setRotate] = useState(startOpen || false);
 
   const handleClick = () => {
     setRotate(!rotate);
@@ -18,9 +24,9 @@ export const Toggle: FC<ToggleProps> = ({ children, text }) => {
   };
 
   return (
-    <div style={{ marginBottom: "10px" }}>
+    <>
       <IconWrapper onClick={() => handleClick()}>
-        <Icon rotate={rotate}>⫸</Icon>
+        <IconContainer rotate={rotate}>{icon}</IconContainer>
         <IconText>{text}</IconText>
       </IconWrapper>
       {show && (
@@ -28,11 +34,9 @@ export const Toggle: FC<ToggleProps> = ({ children, text }) => {
           <Fade show={show}>{children}</Fade>
         </div>
       )}
-    </div>
+    </>
   );
 };
-
-Toggle.displayName = "Toggle";
 
 interface IconProps {
   readonly rotate: boolean;
@@ -40,23 +44,23 @@ interface IconProps {
 
 const IconWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  font-size: 24px;
   cursor: pointer;
-  margin-bottom: 20px;
 `;
 
-const Icon = styled.button<IconProps>`
+const IconContainer = styled.button<IconProps>`
   border: none;
   background-color: rgba(0, 0, 0, 0);
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.colors.primary};
   transform: ${(props) => (props.rotate ? `rotate(90deg)` : "")};
   transition: all 0.3s ease-out;
 `;
 
-const IconText = styled.text`
-  color: ${({ theme }) => theme.secondary};
+const IconText = styled.p`
+  color: ${({ theme }) => theme.colors.secondary};
+  padding: 0.4rem;
   &:hover {
-    text-decoration: underline;
+    border-radius: 8px;
+    background-color: ${({ theme }) => `${theme.colors.hoveredBg}`};
   }
+  font-size: 24px;
 `;

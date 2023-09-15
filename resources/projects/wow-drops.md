@@ -1,7 +1,7 @@
 ---
 title: 'WowDrops'
 link: 'https://github.com/cansirin/wowdrops'
-tech: ['Typescript', 'ReactJS', 'NextJS', 'styled-components', 'Graphql', 'Apollo']
+tech: ['TypeScript', 'ReactJS', 'NextJS', 'styled-components', 'GraphQL', 'Apollo']
 roles: ['Full Stack']
 ---
 

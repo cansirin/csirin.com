@@ -4,8 +4,9 @@ import { FC } from "react";
 import { Project } from "../../../types";
 import { FadeInAnimation } from "../../layout-components";
 import styled, { useTheme } from "styled-components";
-import { InternalLink } from "../InsiderLink";
+import { TagLink } from "../Tag";
 import { Toggle } from "../Toggle";
+import { Icon } from "@iconify/react";
 
 type ProjectItemProps = {
   project: Project;
@@ -14,56 +15,62 @@ type ProjectItemProps = {
 const ProjectContainer = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid ${({ theme }) => theme.border};
-  border-radius: 4px;
-  padding: 12px 16px;
-  margin-bottom: 10px;
-  margin-left: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 12px;
+  padding: 0 24px 24px;
+  background-color: ${({ theme }) => theme.colors.sand3};
 `;
 
 const ProjectHeader = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
 `;
 
-const ProjectTitle = styled.label`
-  font-size: 34px;
-`;
+const ProjectTitle = styled.h1``;
 
 const ProjectDetails = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  margin-bottom: 15px;
   font-weight: 500;
+
+  @media (max-width: 1024px) {
+    max-width: 10rem;
+  }
 `;
 
 const ProjectRoles = styled.div`
   display: flex;
-  align-self: flex-end;
 `;
 
 const ProjectDescription = styled.div`
-  line-height: 1.5;
-  color: ${({ theme }) => theme.secondary};
-  border-top: 2px solid ${({ theme }) => `${theme.border}`};
+  line-height: 2;
+  color: ${({ theme }) => theme.colors.secondary};
+  border-top: 1px solid ${({ theme }) => `${theme.colors.border}`};
 `;
 
 const ProjectTechs = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  font-size: medium;
+  margin-top: 10px;
 `;
 
 const ProjectLink = styled.a`
   font-size: 14px;
-  color: ${({ theme }) => theme.secondary};
-  border-radius: 4px;
-  letter-spacing: 0.025em;
+  color: ${({ theme }) => theme.colors.secondary};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 10px;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 540px) {
+    max-width: 14rem;
   }
 `;
 
@@ -73,44 +80,52 @@ export const ProjectItem: FC<ProjectItemProps> = ({ project }) => {
   return (
     <FadeInAnimation x={-100}>
       <ProjectContainer>
-        <ProjectHeader>
-          <ProjectTitle>{project.title}</ProjectTitle>
-          <ProjectDetails>
-            <ProjectRoles>
-              {project.roles &&
-                project.roles.map((role) => <label>{role}</label>)}
-            </ProjectRoles>
-            <ProjectLink href={project.link} target="_blank">
-              {project.link}
-            </ProjectLink>
-          </ProjectDetails>
-        </ProjectHeader>
+        <ProjectTitle>{project.title}</ProjectTitle>
+        <ProjectRoles>
+          {project.roles &&
+            project.roles.map((role) => <label key={role}>{role}</label>)}
+        </ProjectRoles>
+        {project.link && (
+          <ProjectLink href={project.link} target="_blank">
+            {project.link}
+          </ProjectLink>
+        )}
         <ProjectDescription>
-          <ReactMarkdown plugins={[remarkGfm]}>
+          <ReactMarkdown
+            plugins={[remarkGfm]}
+            components={{
+              li: BlogLi,
+              ul: BlogUl,
+            }}
+          >
             {project.description}
           </ReactMarkdown>
-          {project.images && (
-            <Toggle text="Screenshots">
-              <ProjectImagesContainer>
-                {project.images.map((src) => (
-                  <ProjectImage src={src} />
-                ))}
-              </ProjectImagesContainer>
-            </Toggle>
-          )}
         </ProjectDescription>
+        {project.images && (
+          <Toggle
+            text="Screenshots"
+            icon={<Icon icon="bi:arrow-right" height={32} />}
+            startOpen={true}
+          >
+            <ProjectImagesContainer>
+              {project.images.map((src) => (
+                <ProjectImage key={src} src={src} />
+              ))}
+            </ProjectImagesContainer>
+          </Toggle>
+        )}
         <ProjectTechs>
           {project.tech &&
-            project.tech.map((t, tIndex) => {
+            project.tech.map((t) => {
               return (
-                <InternalLink
-                  key={tIndex}
-                  color={theme.primary}
-                  fontSize={18}
+                <TagLink
+                  key={t}
+                  color={theme.colors.primary}
+                  fontSize={16}
                   link={`/tags/${t.toLowerCase()}`}
                 >
                   #{t}
-                </InternalLink>
+                </TagLink>
               );
             })}
         </ProjectTechs>
@@ -121,16 +136,34 @@ export const ProjectItem: FC<ProjectItemProps> = ({ project }) => {
 
 const ProjectImagesContainer = styled.div`
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
   margin-bottom: 20px;
 `;
 
 const ProjectImage = styled.img`
-  width: auto;
-  height: auto;
-  max-width: 834px;
+  max-width: 700px;
   max-height: 540px;
+  aspect-ratio: auto;
+  padding: 0.5em;
+`;
+const BlogLi: FC = ({ children }) => {
+  return <StyledLi>{children}</StyledLi>;
+};
+
+const StyledLi = styled.li`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.hiContrastText};
+  padding: 16px 0;
+  margin: 0;
+  list-style: none;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.amber6};
+`;
+const BlogUl: FC = ({ children }) => {
+  return <StyledUl>{children}</StyledUl>;
+};
+
+const StyledUl = styled.ul`
+  padding: 0;
+  margin: 0;
 `;

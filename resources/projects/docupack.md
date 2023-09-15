@@ -1,7 +1,7 @@
 ---
 title: 'Docupack'
 link: 'https://github.com/docupack/web'
-tech: ['Typescript', 'ReactJS', 'NextJS', 'Tailwind']
+tech: ['TypeScript', 'ReactJS', 'NextJS', 'Tailwind', "AWS Amplify", "GraphQL"]
 roles: ['Front End']
 ---
 

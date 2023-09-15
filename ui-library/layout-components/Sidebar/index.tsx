@@ -1,108 +1,119 @@
-import Link from "next/link";
+import styled, { useTheme } from "styled-components";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import { ThemeChanger } from "../ThemeChanger";
+import { NavbarLink } from "../Navbar/Link";
+import useComponentVisible from "../../../hooks/useComponentVisible";
+
+const navigation = [
+  { name: "Home", url: "/" },
+  { name: "Projects", url: "/projects" },
+  { name: "Posts", url: "/posts" },
+  { name: "Photos", url: "/photos" },
+  { name: "Tools", url: "/tools" },
+  { name: "Resume", url: "/resume.pdf", target: "_blank" },
+];
 
 export const Sidebar = () => {
   const router = useRouter();
-  const isHome = router.asPath === "/";
+  const theme = useTheme();
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useComponentVisible(false);
 
   return (
-    <Nav hidden={isHome}>
-      <Link href="/">
-        <Title>csirin's space</Title>
-      </Link>
-      <Contacts>
-        <ThemeChanger />
-        <a href="https://github.com/cansirin">
-          <Icon width={45} height={45} icon="akar-icons:github-outline-fill" />
-        </a>
+    <SidebarContainer>
+      <div ref={ref} onClick={() => setIsComponentVisible(!isComponentVisible)}>
+        {/*// TODO: This logic shouldn't work like this*/}
+        <Menu>
+          {isComponentVisible ? (
+            <Icon icon="radix-icons:cross-2" height={36} />
+          ) : (
+            <Icon icon="quill:hamburger" height={36} />
+          )}
+        </Menu>
+        <Nav isHidden={!isComponentVisible}>
+          {navigation.map((link, index) => {
+            return (
+              <NavbarLink
+                padded
+                key={index}
+                link={link.url}
+                fontSize="24px"
+                target={link.target}
+                isActive={router.asPath === link.url}
+                color={theme.colors.hiContrastText}
+              >
+                {link.name}
+              </NavbarLink>
+            );
+          })}
+        </Nav>
+      </div>
+      <Icons>
+        <ThemeChanger size={32} />
         <a href="https://www.linkedin.com/in/can-sirin-web/">
-          <Icon width={45} height={45} icon="ant-design:linkedin-outlined" />
+          <Icon height={32} icon="akar-icons:linkedin-box-fill" />
         </a>
-        <a href="/resume.pdf" download="CanSirin_Resume.pdf">
-          <Icon
-            width={45}
-            height={45}
-            icon="fluent:document-bullet-list-20-regular"
-          />
+        <a href="https://github.com/cansirin">
+          <Icon height={32} icon="akar-icons:github-outline-fill" />
         </a>
-      </Contacts>
-      <SidebarLinks />
-    </Nav>
+      </Icons>
+    </SidebarContainer>
   );
 };
 
+const Menu = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 16px;
+`;
+
+const MenuTitle = styled.span`
+  font-size: 24px;
+`;
+
 interface NavProps {
-  readonly hidden?: boolean;
+  readonly isHidden?: boolean;
 }
 
 const Nav = styled.nav<NavProps>`
   display: flex;
   flex-direction: column;
-  width: ${(props) => (props.hidden ? 0 : `${350}px`)};
-  padding: 32px;
-  height: 25vh; // experiment with this value, try changing to 110vh
-  top: 0;
-  position: sticky;
-  position: -webkit-sticky;
-  white-space: nowrap;
-  visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
-  opacity: ${(props) => (props.hidden ? 0 : 1)};
-  transition: opacity 1s, width 1s;
-`;
+  padding: 8px;
+  width: 250px; // experiment with this value, try changing to 110vh
+  top: 140px;
+  left: 20px;
+  gap: 10px;
+  border-radius: 8px;
+  position: absolute;
+  background-color: ${({ theme }) => theme.colors.sand3};
+  border: 1px solid ${({ theme }) => theme.colors.amber7};
+  visibility: ${(props) => (props.isHidden ? "hidden" : "visible")};
+  opacity: ${(props) => (props.isHidden ? 0 : 1)};
+  color: ${({ theme }) => theme.colors.lowContrastText};
 
-const Title = styled.a`
-  font-size: larger;
-  align-self: center;
-  margin-bottom: 10px;
-`;
-
-const SidebarLinkContainer = styled.div`
-  margin: 8px 0;
-  border-radius: 4px;
-  padding: 12px 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => `${theme.primary}`};
+  @media (max-width: 359px) {
+    top: 160px;
   }
 `;
 
-const SidebarLink = styled.a`
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: ${({ theme }) => theme.secondary};
-  transition: text-decoration-color 300ms;
-`;
-
-const Contacts = styled.div`
+const SidebarContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-bottom: 10px;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10000;
+  width: 100%;
+  max-width: 60em;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
 `;
 
-export const SidebarLinks = () => {
-  const navigation = [
-    { name: "Home", url: "/" },
-    { name: "Projects", url: "/projects" },
-    // { name: "Posts", url: "/posts" },
-  ];
-
-  return (
-    <>
-      {navigation.map((link, index) => {
-        return (
-          <Link href={link.url}>
-            <SidebarLinkContainer key={index}>
-              <SidebarLink>{link.name}</SidebarLink>
-            </SidebarLinkContainer>
-          </Link>
-        );
-      })}
-    </>
-  );
-};
+const Icons = styled.div`
+  display: flex;
+  gap: 10px;
+  padding-right: 10px;
+  align-items: center;
+`;

@@ -11,15 +11,15 @@ export const PostList = ({ posts }: PostListProps) => {
   if (posts.length === 0) {
     return (
       <Animate>
-        <h2>/posts</h2>
-        <NotAvailable text="No post available yet." />
+        <h1>/posts</h1>
+        <NotAvailable text="No post added yet." />
       </Animate>
     );
   }
 
   return (
     <Animate>
-      <h2>/posts</h2>
+      <h1>/posts</h1>
       <ListContainer>
         {posts.map((post, index) => {
           return <PostItem key={index} post={post} />;
@@ -32,5 +32,6 @@ export const PostList = ({ posts }: PostListProps) => {
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 40px;
+  padding: 20px 0;
 `;

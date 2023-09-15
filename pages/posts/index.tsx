@@ -1,10 +1,7 @@
 import { GetServerSideProps } from "next";
 import { getAllPosts } from "../../resources/apis/posts";
 import { Post } from "../../types";
-import {
-  CenteredContainer,
-  NotAvailable,
-} from "../../ui-library/layout-components";
+import { CenteredContainer } from "../../ui-library/layout-components";
 import { PostList } from "../../ui-library/page-components/PostList";
 
 type HomeProps = {
@@ -13,7 +10,7 @@ type HomeProps = {
 
 const PostsPage = ({ data }: HomeProps) => {
   return (
-    <CenteredContainer width="55em">
+    <CenteredContainer>
       <PostList posts={data} />
     </CenteredContainer>
   );

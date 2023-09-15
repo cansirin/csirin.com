@@ -19,7 +19,7 @@ const NotAvailableContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 4px;
-  border: 2px solid ${({ theme }) => theme.border};
+  border: 2px solid ${({ theme }) => theme.colors.border};
   padding: 12px 16px;
   margin-bottom: 10px;
   margin-left: 10px;

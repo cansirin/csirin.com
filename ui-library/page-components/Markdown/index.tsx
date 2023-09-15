@@ -66,19 +66,21 @@ const BlogContainer = styled.div`
 `;
 
 const StyledH2 = styled.h2`
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 25px;
   text-align: center;
   font-weight: 400;
 `;
 
 const StyledP = styled.p`
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.colors.hiContrastText};
 `;
 
 const StyledLi = styled.li`
-  font-size: 22px;
-  color: ${({ theme }) => theme.text};
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.hiContrastText};
+  padding: 0;
+  margin: 0;
 `;
 
 const StyledBlockQuote = styled.blockquote`
@@ -86,19 +88,19 @@ const StyledBlockQuote = styled.blockquote`
   padding: 0 1em;
   margin-left: 0;
   font-style: italic;
-  border-left-color: ${({ theme }) => theme.border};
+  border-left-color: ${({ theme }) => theme.colors.border};
 `;
 
 const StyledA = styled.a`
   position: relative;
   overflow: hidden;
-  text-decoration: underline ${({ theme }) => theme.primary};
+  text-decoration: underline ${({ theme }) => theme.colors.primary};
   text-underline-offset: 2px;
   background: linear-gradient(
       to right,
-      ${({ theme }) => theme.primary},
-      ${({ theme }) => theme.primary} 50%,
-      ${({ theme }) => theme.secondary} 50%
+      ${({ theme }) => theme.colors.primary},
+      ${({ theme }) => theme.colors.primary} 50%,
+      ${({ theme }) => theme.colors.secondary} 50%
     )
     100%;
   -webkit-background-clip: text;

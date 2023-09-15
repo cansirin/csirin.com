@@ -1,9 +1,8 @@
 ---
 title: 'Instrument & Visualizer'
-link: '-'
-tech: ['ReactJS', 'Typescript', 'SocketIO', 'ToneJS']
+link: ''
+tech: ['ReactJS', 'TypeScript', 'SocketIO', 'ToneJS']
 roles: ['Full Stack']
-images: ['https://user-images.githubusercontent.com/8138047/148590952-ccd6e267-1f2a-41dc-b7a4-598f87051ffe.png']
 ---
 
 #### _This was a final project for CSC600 at SFSU._

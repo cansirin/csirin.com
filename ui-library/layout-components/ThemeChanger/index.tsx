@@ -23,7 +23,8 @@ export const ThemeChanger: FC<ThemeChangerProps> = ({ size = 45 }) => {
 
 const ChangeButton = styled.button`
   border: none;
+  padding: 0;
   background-color: rgba(0, 0, 0, 0);
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.colors.primary};
   cursor: pointer;
 `;

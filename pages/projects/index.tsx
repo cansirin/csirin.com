@@ -10,7 +10,7 @@ type ProjectsPageProps = {
 
 const ProjectsPage = ({ data }: ProjectsPageProps) => {
   return (
-    <CenteredContainer width="55em">
+    <CenteredContainer>
       <ProjectList projects={data} />
     </CenteredContainer>
   );

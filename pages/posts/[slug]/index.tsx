@@ -13,11 +13,13 @@ type PostPageProps = {
 const PostPage = ({ post }: PostPageProps) => {
   const router = useRouter();
   return (
-    <CenteredContainer width="60em">
+    <CenteredContainer>
       <PostContainer>
-        <BackLink href="#" onClick={() => router.back()}>
-          <label>⫷</label> Back
-        </BackLink>
+        <div style={{ marginTop: 30 }}>
+          <BackLink href="#" onClick={() => router.back()}>
+            <label>⫷</label> Back
+          </BackLink>
+        </div>
         <PostTitle>{post.title}</PostTitle>
         <Markdown>{post.content}</Markdown>
       </PostContainer>
@@ -30,9 +32,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
   const post = getPostBySlug(slug);
 
-  // const content = await markdownToHtml(data.content || "");
-  //
-  // const post = { ...data, content };
   if (!post) {
     return {
       notFound: true,
@@ -55,7 +54,7 @@ const PostContainer = styled.div`
 
 const PostTitle = styled.h1`
   text-align: center;
-  color: ${({ theme }) => `${theme.secondary}`};
+  color: ${({ theme }) => `${theme.colors.secondary}`};
 `;
 
 const BackLink = styled.a`
@@ -63,6 +62,7 @@ const BackLink = styled.a`
   border-radius: 4px;
   letter-spacing: 0.025em;
   transition: all 0.125s ease;
+  padding-top: 1rem;
 
   &:hover {
     text-decoration: underline;

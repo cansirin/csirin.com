@@ -9,7 +9,7 @@ const DateFormatter = ({ dateString }: Props) => {
   const date = parseISO(dateString);
   return (
     <TimeContainer dateTime={dateString}>
-      {format(date, "LLL	d, yyyy")}
+      <Time>{format(date, "LLL	d, yyyy")}</Time>
     </TimeContainer>
   );
 };
@@ -17,8 +17,10 @@ const DateFormatter = ({ dateString }: Props) => {
 export default DateFormatter;
 
 const TimeContainer = styled.time`
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.colors.primary};
   margin: 4px;
   white-space: nowrap;
   font-size: 18px;
 `;
+
+const Time = styled.span``;

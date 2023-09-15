@@ -16,10 +16,12 @@ type TagPageProps = {
 
 const TagPage = ({ data }: TagPageProps) => {
   return (
-    <CenteredContainer width="55em">
-      <h1># {data.tag}</h1>
-      <PostList posts={data.posts} />
-      <ProjectList projects={data.projects} />
+    <CenteredContainer>
+      <div style={{ paddingBottom: 40 }}>
+        <h1># {data.tag}</h1>
+        <PostList posts={data.posts} />
+        <ProjectList projects={data.projects} />
+      </div>
     </CenteredContainer>
   );
 };

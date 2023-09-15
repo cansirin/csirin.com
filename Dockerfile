@@ -14,6 +14,7 @@ RUN npm run build
 FROM public.ecr.aws/lambda/nodejs:latest as runner
 MAINTAINER Can Sirin <cansirin12@gmail.com>
 WORKDIR /blog-web
+ENV NODE_ENV=production
 
 COPY --from=builder /blog-web/next.config.js ./
 COPY --from=builder /blog-web/public ./public

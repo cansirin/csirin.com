@@ -11,15 +11,15 @@ export const ProjectList = ({ projects }: ProjectListProps) => {
   if (projects.length === 0) {
     return (
       <Animate>
-        <h2>/projects</h2>
-        <NotAvailable text="No project yet." />
+        <h1>/projects</h1>
+        <NotAvailable text="No project added yet." />
       </Animate>
     );
   }
 
   return (
     <Animate>
-      <h2>/projects</h2>
+      <h1>/projects</h1>
       <ListContainer>
         {projects.map((project, index) => {
           return <ProjectItem key={index} project={project} />;
@@ -31,5 +31,7 @@ export const ProjectList = ({ projects }: ProjectListProps) => {
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  justify-content: space-around;
+  gap: 40px;
+  padding: 20px 0;
 `;
